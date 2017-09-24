@@ -1,0 +1,785 @@
+<html>
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="likud/bootstrap.min.css">
+    <link rel="stylesheet" href="likud/font-awesome.min.css"/>
+
+    <script src="likud/jspdf.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
+
+    <style>
+        /* https://alefalefalef.co.il/resources/%D7%A4%D7%95%D7%A0%D7%98%D7%99%D7%9D-%D7%91%D7%97%D7%99%D7%A0%D7%9D/?af=39 */
+        @font-face {
+            font-family: 'GveretLevin';
+            src: url('likud/GveretLevinAlefAlefAlef-Regular.eot') format('eot'), url('likud/GveretLevinAlefAlefAlef-Regular.woff') format('woff'), url('likud/GveretLevinAlefAlefAlef-Regular.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'DanaYad';
+            src: url('likud/DanaYadAlefAlefAlef-Normal.eot') format('eot'), url('likud/DanaYadAlefAlefAlef-Normal.woff') format('woff'), url('likud/DanaYadAlefAlefAlef-Normal.otf') format('otf');
+        }
+
+        html {
+            direction: rtl;
+        }
+
+        #form-wrapper {
+            position: relative;
+            user-select: none;
+        }
+
+        #form-wrapper img {
+            position: absolute;
+        }
+
+        #form-wrapper input.field-form {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.1);
+            letter-spacing: 2px;
+            border: none;
+            outline: none;
+            font-family: 'GveretLevin', 'Pangolin', sans-serif;
+        }
+
+        #form-wrapper canvas.field-form {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.1);
+            cursor: hand;
+
+        }
+
+        #form-wrapper div.field-form {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+
+        }
+
+        #form-wrapper div.field-form div {
+            position: absolute;
+            display: inline-block;
+            pointer-events: none;
+            cursor: pointer;
+            margin-left: -8px;
+
+        }
+
+        
+        .btn-primary {
+            padding:10px 50px;
+            font-size:24px;
+        }
+
+    </style>
+
+    <script>
+
+        function Pad(element) {
+            this.canvas = element;
+            this.flag = false;
+            this.dot_flag = false;
+            this.prevX = 0;
+            this.currX = 0;
+            this.prevY = 0;
+            this.currY = 0;
+        }
+
+        Pad.prototype.init = function () {
+            this.eraseButton = document.createElement("button");
+            this.eraseButton.textContent = "Erase";
+            this.canvas.parentElement.appendChild(this.eraseButton);
+
+            this.eraseButton.addEventListener("click", (function (e) {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            }).bind(this));
+
+            this.ctx = this.canvas.getContext("2d");
+
+            this.canvas.addEventListener("mousemove", (function (e) {
+                this.findxy('move', e)
+            }).bind(this), false);
+            this.canvas.addEventListener("mousedown", (function (e) {
+                this.findxy('down', e)
+            }).bind(this), false);
+            this.canvas.addEventListener("mouseup", (function (e) {
+                this.findxy('up', e)
+            }).bind(this), false);
+            this.canvas.addEventListener("mouseout", (function (e) {
+                this.findxy('out', e)
+            }).bind(this), false);
+        };
+
+        Pad.prototype.draw = function () {
+            this.ctx.strokeStyle = "black";
+            //this.ctx.lineWidth = 2 + 5 / Math.sqrt((this.currY - this.prevY) * (this.currY - this.prevY) + (this.currX - this.prevX) * (this.currX - this.prevX));
+            this.ctx.lineWidth = 2;
+
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.prevX, this.prevY);
+            this.ctx.lineTo(this.currX, this.currY);
+            this.ctx.stroke();
+            this.ctx.closePath();
+        };
+
+        Pad.prototype.erase = function () {
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        };
+
+        Pad.prototype.findxy = function (res, e) {
+            if (res == 'down') {
+                this.prevX = this.currX;
+                this.prevY = this.currY;
+                this.currX = e.offsetX;
+                this.currY = e.offsetY;
+
+                this.flag = true;
+                this.dot_flag = true;
+                if (this.dot_flag) {
+                    this.ctx.beginPath();
+                    this.ctx.fillStyle = this.fillStyle;
+                    //this.ctx.fillRect(this.currX, this.currY, 2, 2);
+                    this.ctx.closePath();
+                    this.dot_flag = false;
+                }
+            }
+            if (res == 'up' || res == "out") {
+                this.flag = false;
+            }
+            if (res == 'move') {
+
+                if (this.flag) {
+                    this.prevX = this.currX;
+                    this.prevY = this.currY;
+                    this.currX = e.offsetX;
+                    this.currY = e.offsetY;
+                    this.draw();
+                }
+            }
+
+        };
+
+
+        var fields = [
+            {
+                "name": "date",
+                "type": "input",
+                "x": 30,
+                "y": 115,
+                "size": 24,
+                "width": 280,
+                
+            },
+
+            {
+                "name": "id",
+                "type": "input",
+                "x": 790,
+                "y": 355,
+                "size": 24,
+                "width": 280,
+                "spacing": 19,
+                
+            },
+            {
+                "name": "family_name",
+                "type": "input",
+                "x": 400,
+                "y": 355,
+                "size": 24,
+                "width": 280,
+                
+            },
+            {
+                "name": "first_name",
+                "type": "input",
+                "x": 30,
+                "y": 355,
+                "size": 24,
+                "width": 280,
+                
+            },
+            {
+                "name": "father_name",
+                "type": "input",
+                "x": 885,
+                "y": 420,
+                "size": 24,
+                "width": 162,
+                
+            },
+            {
+                "name": "dob_day",
+                "type": "input",
+                "x": 700,
+                "y": 420,
+                "size": 24,
+                "width": 28,
+                
+
+            },
+            {
+                "name": "dob_month",
+                "type": "input",
+                "x": 730,
+                "y": 420,
+                "size": 24,
+                "width": 28,
+                
+            },
+            {
+                "name": "dob_year",
+                "type": "input",
+                "x": 760,
+                "y": 420,
+                "size": 24,
+                "width": 28,
+                
+
+            },
+            {
+                "name": "homeland",
+                "type": "input",
+                "x": 200,
+                "y": 420,
+                "size": 24,
+                "width": 140,
+                
+            },
+            {
+                "name": "immigration_year",
+                "type": "input",
+                "x": 30,
+                "y": 420,
+                "size": 24,
+                "width": 80,
+                
+            },
+
+            {
+                "name": "address",
+                "type": "input",
+                "x": 605,
+                "y": 485,
+                "size": 24,
+                "width": 440,
+                
+            },
+
+            {
+                "name": "city",
+                "type": "input",
+                "x": 305,
+                "y": 485,
+                "size": 24,
+                "width": 240,
+                
+            },
+
+            {
+                "name": "zip",
+                "type": "input",
+                "x": 40,
+                "y": 485,
+                "size": 24,
+                "width": 180,
+                
+            },
+
+            {
+                "name": "mobile_phone",
+                "type": "input",
+                "x": 800,
+                "y": 546,
+                "size": 24,
+                "width": 200,
+                
+            },
+            {
+                "name": "work_phone",
+                "type": "input",
+                "x": 420,
+                "y": 546,
+                "size": 24,
+                "width": 200,
+                
+            },
+
+            {
+                "name": "home_phone",
+                "type": "input",
+                "x": 80,
+                "y": 546,
+                "size": 24,
+                "width": 200,
+                
+            },
+
+            {
+                "name": "email_username",
+                "type": "input",
+                "x": 315,
+                "y": 614,
+                "size": 24,
+                "width": 237,
+                
+            },
+
+            {
+                "name": "email_provider",
+                "type": "input",
+                "x": 600,
+                "y": 614,
+                "size": 24,
+                "width": 300,
+                "align": "left",
+                
+            },
+
+            {
+                "name": "signature",
+                "type": "signature",
+                "x": 40,
+                "y": 590,
+                "size": 114,
+                "width": 200,
+                
+            },
+            {
+                "name": "status",
+                "type": "option",
+                "mark": "o",
+                "x": 530,
+                "y": 420,
+                "size": 30,
+                "width": 60,
+                
+
+            },
+            {
+                "name": "gender",
+                "type": "option",
+                "mark": "x",
+                "x": 430,
+                "y": 420,
+                "size": 30,
+                "width": 60,
+
+            },
+
+
+
+
+
+
+
+
+
+
+            {
+                "name": "spouse_id",
+                "type": "input",
+                "x": 790,
+                "y": 755,
+                "size": 24,
+                "width": 280,
+                "spacing": 19
+            },
+            {
+                "name": "spouse_family_name",
+                "type": "input",
+                "x": 400,
+                "y": 755,
+                "size": 24,
+                "width": 280
+            },
+            {
+                "name": "spouse_first_name",
+                "type": "input",
+                "x": 30,
+                "y": 755,
+                "size": 24,
+                "width": 280
+            },
+            {
+                "name": "spouse_father_name",
+                "type": "input",
+                "x": 885,
+                "y": 820,
+                "size": 24,
+                "width": 162
+            },
+            {
+                "name": "spouse_dob_day",
+                "type": "input",
+                "x": 700,
+                "y": 820,
+                "size": 24,
+                "width": 28,
+
+            },
+            {
+                "name": "spouse_dob_month",
+                "type": "input",
+                "x": 730,
+                "y": 820,
+                "size": 24,
+                "width": 28,
+
+            },
+            {
+                "name": "spouse_dob_year",
+                "type": "input",
+                "x": 760,
+                "y": 820,
+                "size": 24,
+                "width": 28,
+
+            },
+            {
+                "name": "spouse_homeland",
+                "type": "input",
+                "x": 200,
+                "y": 820,
+                "size": 24,
+                "width": 140
+            },
+            {
+                "name": "spouse_immigration_year",
+                "type": "input",
+                "x": 30,
+                "y": 820,
+                "size": 24,
+                "width": 80
+            },
+
+
+
+            {
+                "name": "spouse_mobile_phone",
+                "type": "input",
+                "x": 800,
+                "y": 886,
+                "size": 24,
+                "width": 200
+            },
+            {
+                "name": "spouse_work_phone",
+                "type": "input",
+                "x": 420,
+                "y": 886,
+                "size": 24,
+                "width": 200
+            },
+
+            {
+                "name": "spouse_home_phone",
+                "type": "input",
+                "x": 80,
+                "y": 886,
+                "size": 24,
+                "width": 200
+            },
+
+            {
+                "name": "spouse_email_username",
+                "type": "input",
+                "x": 315,
+                "y": 946,
+                "size": 24,
+                "width": 237
+            },
+
+            {
+                "name": "spouse_email_provider",
+                "type": "input",
+                "x": 600,
+                "y": 946,
+                "size": 24,
+                "width": 300,
+                "align": "left"
+            },
+
+            {
+                "name": "spouse_signature",
+                "type": "signature",
+                "x": 40,
+                "y": 930,
+                "size": 114,
+                "width": 200
+            },
+            {
+                "name": "spouse_status",
+                "type": "option",
+                "mark": "o",
+                "x": 530,
+                "y": 820,
+                "size": 30,
+                "width": 60
+
+            },
+            {
+                "name": "spouse_gender",
+                "type": "option",
+                "mark": "x",
+                "x": 430,
+                "y": 820,
+                "size": 30,
+                "width": 60
+
+            },
+
+            {
+                "name": "person_name",
+                "type": "input",
+                "x": 670,
+                "y": 1190,
+                "size": 24,
+                "width": 290,
+
+            },
+
+            {
+                "name": "person_id",
+                "type": "input",
+                "x": 335,
+                "y": 1190,
+                "size": 24,
+                "width": 300,
+                "spacing": 20
+
+            },
+
+                        {
+                "name": "person_dob_day",
+                "type": "input",
+                "x": 180,
+                "y": 1190,
+                "size": 24,
+                "width": 28,
+
+            },
+            {
+                "name": "person_dob_month",
+                "type": "input",
+                "x": 216,
+                "y": 1190,
+                "size": 24,
+                "width": 28,
+
+            },
+            {
+                "name": "person_dob_year",
+                "type": "input",
+                "x": 252,
+                "y": 1190,
+                "size": 24,
+                "width": 28,
+
+            },
+
+            {
+                "name": "person_signature",
+                "type": "signature",
+                "x": 40,
+                "y": 1190,
+                "size": 114,
+                "width": 120
+            },
+                {
+                "name": "credit_number",
+                "type": "input",
+                "x": 505,
+                "y": 1110,
+                "size": 24,
+                "width": 500,
+                "spacing": 21
+
+            },
+
+            {
+                "name": "credit_date",
+                "type": "input",
+                "x": 355,
+                "y": 1110,
+                "size": 24,
+                "width": 90,
+                "spacing": 10
+
+            },
+
+        ];
+
+        window.onload = function () {
+
+            var formWrapper = document.querySelector("#form-wrapper");
+
+            for (var i = 0; i < fields.length; i++) {
+                var field;
+
+                if (fields[i].type == "input") {
+                    field = document.createElement("input");
+                    field.className = "field-form";
+                    field.style.fontSize = fields[i].size + "px";
+                    field.style.top = fields[i].y;
+                    field.style.left = fields[i].x;
+                    field.style.width = fields[i].width;
+                    if (fields[i].spacing) {
+                        field.style["letter-spacing"] = fields[i].spacing;
+                    }
+                    if (fields[i].align) {
+                        field.style["text-align"] = fields[i].align;
+                    }
+
+                    fields[i].field = field;
+
+                    formWrapper.appendChild(field);
+
+                } else if (fields[i].type == "signature") {
+
+                    field = document.createElement("canvas");
+                    field.className = "field-form";
+                    field.style.top = fields[i].y;
+                    field.style.left = fields[i].x;
+                    field.style.width = fields[i].width;
+                    field.style.height = fields[i].size;
+                    field.width = fields[i].width;
+                    field.height = fields[i].size;
+                    fields[i].field = field;
+                    formWrapper.appendChild(field);
+
+                    var signaturePad = new Pad(field);
+
+                    signaturePad.init();
+                } else if (fields[i].type == "option") {
+                    field = document.createElement("div");
+                    field.className = "field-form";
+                    field.style.top = fields[i].y;
+                    field.style.left = fields[i].x;
+                    field.style.width = fields[i].width + "px";
+                    field.style.height = fields[i].size + "px";
+                    field.style.fontSize = fields[i].size + "px";
+                    field.style.lineHeight = fields[i].size + "px";
+                    fields[i].field = field;
+
+                    var selection = document.createElement("div");
+                    selection.className = "selection";
+                    selection.textContent = fields[i].mark;
+
+                    field.appendChild(selection);
+
+                    formWrapper.appendChild(field);
+
+                    field.addEventListener("click", function (e) {
+                        var selection = this.querySelector("div.selection");
+                        selection.style.left = e.offsetX;
+                    });
+                }
+            }
+
+            document.getElementById("save-button").addEventListener("click", function () {
+
+                var canvas = document.createElement("canvas");
+                var formImage = document.getElementById("form-image");
+                canvas.width = formImage.width;
+                canvas.height = formImage.height;
+
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(formImage, 0, 0, formImage.width, formImage.height);
+                ctx.direction = "rtl";
+                ctx.textAlign = "right";
+                ctx.textBaseline = "middle";
+
+
+                for (var i = 0; i < fields.length; i++) {
+                    var offset = fields[i].width;
+                    var offset_y = 0
+                    var font = 'GveretLevin'
+                    ctx.textAlign = "right";
+                    if (fields[i].type == "input") {
+                        if (fields[i].name.indexOf("email") > -1) {
+                            offset_y = 10
+                            font = "Pangolin"
+                            if (fields[i].name == 'email_provider' || fields[i].name == 'spouse_email_provider') {
+                                ctx.textAlign = "left";
+                                offset = 0;
+                            }
+                        }
+                        
+                        ctx.font = fields[i].size + "px " + font;
+                        ctx.fillText(fields[i].field.value, fields[i].x + offset, fields[i].y + fields[i].size / 2 + offset_y);
+                    } else if (fields[i].type == "signature") {
+                            ctx.drawImage(fields[i].field, fields[i].x, fields[i].y);
+                    } else if (fields[i].type == "option") {
+                        font = "Pangolin";
+                        ctx.font = fields[i].size + "px " + font;
+                        if (fields[i].field.children[0].style.left) {
+                            offset = 9+parseInt(fields[i].field.children[0].style.left.replace('px',''));    
+                        }
+                        
+                        ctx.fillText(fields[i].mark, fields[i].x + offset, fields[i].y + 3 + fields[i].size / 2);
+
+
+                    }
+
+                }
+
+                var imgData = canvas.toDataURL("image/jpeg", 1.0);
+                var pdf = new jsPDF("p", "px", "a4");
+                var margin = 0;
+
+                var width = pdf.internal.pageSize.width - margin * 2;
+                var height = pdf.internal.pageSize.height - margin * 2;
+
+                var pdfRatio = height / width;
+                var currentRatio = canvas.height / canvas.width;
+
+                console.log("page width: " + width);
+                console.log("page height: " + height);
+                console.log("image width: " + canvas.width);
+                console.log("image height: " + canvas.height);
+                console.log("page ratio: " + pdfRatio);
+                console.log("image ratio: " + currentRatio);
+
+                if (pdfRatio > currentRatio) {
+                    pdf.addImage(imgData, 'JPEG', margin, margin, width, width * currentRatio);
+                } else {
+                    pdf.addImage(imgData, 'JPEG', margin + (width - height / currentRatio) / 2, margin, height / currentRatio, height);
+                }
+
+                pdf.save("form.pdf");
+            });
+        }
+
+    </script>
+
+</head>
+
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <button type="button" class="btn btn-default navbar-btn btn-primary" id="save-button">שמור</button>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="margin-top: 50px">
+
+    <div id="form-wrapper">
+        <img id="form-image" src="likud/register-to-likud.png" style="width: 100%"/>
+    </div>
+
+</div>
+
+</body>
+
+</html>
