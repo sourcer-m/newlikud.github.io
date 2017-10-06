@@ -367,16 +367,6 @@
                 "width": 60,
 
             },
-
-
-
-
-
-
-
-
-
-
             {
                 "name": "spouse_id",
                 "type": "input",
@@ -688,7 +678,7 @@
             }
 
             document.getElementById("save-button").addEventListener("click", function () {
-
+                var filename = 'form.pdf';
                 var canvas = document.createElement("canvas");
                 var formImage = document.getElementById("form-image");
                 canvas.width = formImage.width;
@@ -714,6 +704,8 @@
                                 ctx.textAlign = "left";
                                 offset = 0;
                             }
+                        }else if (fields[i].name.length ===2 && fields[i].name.indexOf("id") > -1 && fields[i].field.value.length >4) {
+                            filename = fields[i].field.value +'.pdf'
                         }
                         
                         ctx.font = fields[i].size + "px " + font;
@@ -757,7 +749,7 @@
                     pdf.addImage(imgData, 'JPEG', margin + (width - height / currentRatio) / 2, margin, height / currentRatio, height);
                 }
 
-                pdf.save("form.pdf");
+                pdf.save(filename);
             });
         }
 
