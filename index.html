@@ -678,7 +678,7 @@
             }
 
             document.getElementById("save-button").addEventListener("click", function () {
-                var filename = 'form.pdf';
+                var filename = 'no_id';
                 var canvas = document.createElement("canvas");
                 var formImage = document.getElementById("form-image");
                 canvas.width = formImage.width;
@@ -705,7 +705,7 @@
                                 offset = 0;
                             }
                         }else if (fields[i].name.length ===2 && fields[i].name.indexOf("id") > -1 && fields[i].field.value.length >4) {
-                            filename = fields[i].field.value +'.pdf'
+                            filename = fields[i].field.value
                         }
                         
                         ctx.font = fields[i].size + "px " + font;
@@ -749,7 +749,12 @@
                     pdf.addImage(imgData, 'JPEG', margin + (width - height / currentRatio) / 2, margin, height / currentRatio, height);
                 }
 
-                pdf.save(filename);
+                if(parent.origin.indexOf('https://www.newlikud.org') !== -1){
+                    var pdfToServer = pdf.output('blob');
+                    self.postToParent(pdfToServer);
+                }else{
+                    pdf.save(filename);    
+                }
             });
         }
 
