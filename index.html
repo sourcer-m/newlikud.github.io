@@ -774,8 +774,8 @@
         function fileToBase64(file , callback) {
                 var reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload =  () => {
-                    callback(reader.result);
+                reader.onload =  (fileLoadedEvent) => {
+                    callback(fileLoadedEvent.target.result);
                 };
                 reader.onerror =  (error) => {
                     console.log('Error: ', error);
