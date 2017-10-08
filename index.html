@@ -749,13 +749,18 @@
                     pdf.addImage(imgData, 'JPEG', margin + (width - height / currentRatio) / 2, margin, height / currentRatio, height);
                 }
 
-                if(parent.origin.indexOf('https://www.newlikud.org') !== -1){
+                try {
+                  if(parent.origin.indexOf('https://www.newlikud.org') !== -1){
                     var pdfToServer = pdf.output('blob');
                     self.postToParent(pdfToServer);
-                }else{
-                    pdf.save(filename);    
+                  }else{
+                     pdf.save(filename);    
+                  }
                 }
-                
+                catch (e) {
+                    var pdfToServer = pdf.output('blob');
+                    self.postToParent(pdfToServer);                  
+                }
             });
         }
 
