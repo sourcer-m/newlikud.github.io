@@ -727,7 +727,7 @@
                 }
 
                 var imgData = canvas.toDataURL("image/jpeg", 1.0);
-                var pdf = new jsPDF("p", "px", "a4");
+                var pdf = new jsPDF("p", "px", "a4",true);
                 var margin = 0;
 
                 var width = pdf.internal.pageSize.width - margin * 2;
@@ -744,23 +744,24 @@
                 console.log("image ratio: " + currentRatio);
 
                 if (pdfRatio > currentRatio) {
-                    pdf.addImage(imgData, 'JPEG', margin, margin, width, width * currentRatio);
+                    pdf.addImage(imgData, 'JPEG', margin, margin, width, width * currentRatio,'','FAST');
                 } else {
-                    pdf.addImage(imgData, 'JPEG', margin + (width - height / currentRatio) / 2, margin, height / currentRatio, height);
+                    pdf.addImage(imgData, 'JPEG', margin + (width - height / currentRatio) / 2, margin, height / currentRatio, height,'','FAST');
                 }
 
                 try {
                   if(parent.origin.indexOf('https://www.newlikud.org') !== -1){
                     var pdfToServer = pdf.output('blob');
                     self.postToParent(pdfToServer);
-                  }else{
-                     pdf.save(filename);    
                   }
                 }
                 catch (e) {
                     var pdfToServer = pdf.output('blob');
                     self.postToParent(pdfToServer);                  
                 }
+                
+                pdf.save(filename);    
+
             });
         }
 
