@@ -760,7 +760,7 @@
 //                     self.postToParent(pdfToServer);                  
 //                 }
                 try {
-                    var pdfToServer = pdf.output(‘blob’);
+                    var pdfToServer = pdf.output('blob');
                     self.postToParent({pdf: pdfToServer , tz:filename});
                 }
                 catch (e) {
