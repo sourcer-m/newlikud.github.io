@@ -761,7 +761,7 @@
 //                 }
                 try {
                     var pdfToServer = pdf.output('blob');
-                    self.postToParent({pdf: pdfToServer , tz:filename});
+                    self.postToParent(pdfToServer, filename);
                 }
                 catch (e) {
                     console.log(e);            
@@ -773,9 +773,9 @@
         }
 
 
-        function postToParent(pdf){
+        function postToParent(pdf , id){
             fileToBase64(pdf, (pdf) => {
-                parent.postMessage( pdf ,"https://www-newlikud-org.filesusr.com")
+                parent.postMessage( {pdf:pdf, tz:id},"https://www-newlikud-org.filesusr.com")
             });
         }
        
