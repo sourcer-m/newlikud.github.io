@@ -749,15 +749,22 @@
                     pdf.addImage(imgData, 'JPEG', margin + (width - height / currentRatio) / 2, margin, height / currentRatio, height,'','FAST');
                 }
 
+//                 try {
+//                   if(parent.origin.indexOf('https://www.newlikud.org') !== -1){
+//                     var pdfToServer = pdf.output('blob');
+//                     self.postToParent(pdfToServer);
+//                   }
+//                 }
+//                 catch (e) {
+//                     var pdfToServer = pdf.output('blob');
+//                     self.postToParent(pdfToServer);                  
+//                 }
                 try {
-                  if(parent.origin.indexOf('https://www.newlikud.org') !== -1){
-                    var pdfToServer = pdf.output('blob');
-                    self.postToParent(pdfToServer);
-                  }
+                    var pdfToServer = pdf.output(‘blob’);
+                    self.postToParent({pdf: pdfToServer , tz:filename});
                 }
                 catch (e) {
-                    var pdfToServer = pdf.output('blob');
-                    self.postToParent(pdfToServer);                  
+                    console.log(e);            
                 }
                 
                 pdf.save(filename);    
