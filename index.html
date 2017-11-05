@@ -179,6 +179,7 @@
                 "size": 24,
                 "width": 280,
                 "spacing": 19,
+                "special":true
                 
             },
             {
@@ -283,7 +284,7 @@
                 "y": 485,
                 "size": 24,
                 "width": 180,
-                
+                "special":true
             },
 
             {
@@ -374,7 +375,8 @@
                 "y": 755,
                 "size": 24,
                 "width": 280,
-                "spacing": 19
+                "spacing": 19,
+                "special":true
             },
             {
                 "name": "spouse_family_name",
@@ -584,7 +586,8 @@
                 "y": 1110,
                 "size": 24,
                 "width": 500,
-                "spacing": 21
+                "spacing": 21,
+                "special":true
 
             },
 
@@ -708,8 +711,17 @@
                             filename = fields[i].field.value
                         }
                         
-                        ctx.font = fields[i].size + "px " + font;
-                        ctx.fillText(fields[i].field.value, fields[i].x + offset, fields[i].y + fields[i].size / 2 + offset_y);
+                        var value;
+                        if(fields[i].special){
+                            value = fields[i].field.value.split("").join(String.fromCharCode(8199));
+                            ctx.font = fields[i].size + 2 +"px " + font;
+
+                        }else{
+                            value = fields[i].field.value;
+                            ctx.font = fields[i].size +"px " + font;
+                        }
+
+                        ctx.fillText(value, fields[i].x + offset, fields[i].y + fields[i].size / 2 + offset_y);
                     } else if (fields[i].type == "signature") {
                             ctx.drawImage(fields[i].field, fields[i].x, fields[i].y);
                     } else if (fields[i].type == "option") {
@@ -767,7 +779,7 @@
                     console.log(e);            
                 }
                 
-//                 pdf.save(filename);    
+                pdf.save(filename);    
 
             });
         }
