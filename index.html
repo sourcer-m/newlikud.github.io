@@ -649,17 +649,16 @@
         ];
 
 
+            window.onload = function () {
             function randomFontGenerate(){
                 const fonts = ['GveretLevin','DanaYad'];
                 const index = Math.floor((Math.random() * fonts.length));
                 return  fonts[index];
             }
-
-            window.onload = function () {
-
+            const randomFont = randomFontGenerate();
             var formWrapper = document.querySelector("#form-wrapper");
 
-            const randomFont = randomFontGenerate();
+         
             for (var i = 0; i < fields.length; i++) {
                 var field;
 
@@ -743,7 +742,7 @@
                 for (var i = 0; i < fields.length; i++) {
                     var offset = fields[i].width;
                     var offset_y = 0
-                    var font = 'GveretLevin'
+                    var font = randomFont
                     ctx.textAlign = "right";
                     if (fields[i].type == "input") {
                         if (fields[i].name.indexOf("email") > -1) {
