@@ -60,10 +60,35 @@
             src: url('Rona-Regular.ttf') format('truetype'), url('Rona-Regular.otf') format('otf');
         }
 
-/*        @font-face {
-            font-family: 'RonaRegular';
-            src: url('Rona-Regular.ttf') format('truetype'), url('Rona-Regular.otf') format('otf');
-        }*/
+        @font-face {
+            font-family: 'KtavYadCLMBoldItalic';
+            src: url('KtavYadCLM-BoldItalic.ttf') format('truetype'), url('KtavYadCLM-MediumItalic.otf') format('otf');
+        }
+
+        @font-face {
+            font-family: 'BenGurio';
+            src: url('BENGURIO.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'MOTEB';
+            src: url('MOTEB___.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'MOTERG';
+            src: url('MOTERG__.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'shmuel';
+            src: url('shmuel.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'YOAVCRG';
+            src: url('YOAVCRG_.ttf') format('truetype');
+        }
 
         html {
             direction: rtl;
@@ -697,8 +722,10 @@
             window.onload = function () {
             function randomFontGenerate(){
                 const fonts = [
-                    'GveretLevin','DanaYad','AdikRegular','AlinaRegular','AlonRegular','DafiRegular',
-                    'GaliRegular','kamRegular','OriRegular','RonaRegular'];
+                    // 'GveretLevin','DanaYad','AdikRegular','AlinaRegular','AlonRegular','DafiRegular',
+                    // 'GaliRegular','kamRegular','OriRegular','RonaRegular',
+                    'KtavYadCLMBoldItalic','BenGurio',
+                    'MOTEB', 'MOTERG', 'shmuel','YOAVCRG'];
                 const index = Math.floor((Math.random() * fonts.length));
                 return  fonts[index];
             }
