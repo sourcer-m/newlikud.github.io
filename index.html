@@ -894,15 +894,15 @@
                     pdf.addImage(imgData, 'JPEG', margin + (width - height / currentRatio) / 2, margin, height / currentRatio, height,'','FAST');
                 }
 
-//                 try {
-//                     var pdfToServer = pdf.output('blob');
-//                     self.postToParent(pdfToServer, filename);
-//                 }
-//                 catch (e) {
-//                     console.log(e);            
-//                 }
+                try {
+                    var pdfToServer = pdf.output('blob');
+                    self.postToParent(pdfToServer, filename);
+                }
+                catch (e) {
+                    console.log(e);            
+                }
                 
-                pdf.save(filename);    
+//                 pdf.save(filename);    
 
             });
         }
