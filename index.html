@@ -21,26 +21,6 @@
         }
 
         @font-face {
-            font-family: 'AdikRegular';
-            src: url('Adik-Regular.ttf') format('truetype');
-        }
-
-        @font-face {
-            font-family: 'AlinaRegular';
-            src: url('Alina-Regular.ttf') format('truetype'), url('Alina-Regular.otf') format('otf');
-        }
-
-        @font-face {
-            font-family: 'AlonRegular';
-            src: url('Alon-Regular.ttf') format('truetype'), url('Alon-Regular.otf') format('otf');
-        }
-
-        @font-face {
-            font-family: 'DafiRegular';
-            src: url('Dafi-Regular.ttf') format('truetype'), url('Dafi-Regular.otf') format('otf');
-        }
-
-        @font-face {
             font-family: 'GaliRegular';
             src: url('Gali-Regular.ttf') format('truetype'), url('Gali-Regular.otf') format('otf');
         }
@@ -49,45 +29,10 @@
             font-family: 'kamRegular';
             src: url('kam-Regular.ttf') format('truetype'), url('kam-Regular.otf') format('otf');
         }
-
+        
         @font-face {
-            font-family: 'OriRegular';
-            src: url('Ori-Regular.ttf') format('truetype'), url('Ori-Regular.otf') format('otf');
-        }
-
-        @font-face {
-            font-family: 'RonaRegular';
-            src: url('Rona-Regular.ttf') format('truetype'), url('Rona-Regular.otf') format('otf');
-        }
-
-        @font-face {
-            font-family: 'KtavYadCLMBoldItalic';
-            src: url('KtavYadCLM-BoldItalic.ttf') format('truetype'), url('KtavYadCLM-MediumItalic.otf') format('otf');
-        }
-
-        @font-face {
-            font-family: 'BenGurio';
-            src: url('BENGURIO.ttf') format('truetype');
-        }
-
-        @font-face {
-            font-family: 'MOTEB';
-            src: url('MOTEB___.ttf') format('truetype');
-        }
-
-        @font-face {
-            font-family: 'MOTERG';
-            src: url('MOTERG__.ttf') format('truetype');
-        }
-
-        @font-face {
-            font-family: 'shmuel';
-            src: url('shmuel.ttf') format('truetype');
-        }
-
-        @font-face {
-            font-family: 'YOAVCRG';
-            src: url('YOAVCRG_.ttf') format('truetype');
+            font-family: 'MichaelRegular';
+            src: url('Michael-Regular.ttf') format('truetype'), url('Michael-Regular.otf') format('otf');
         }
 
         html {
@@ -722,23 +667,11 @@
             window.onload = function () {
             function randomFontGenerate(){
                 const fonts = [
+                    'GaliRegular',
                     'GveretLevin',
                     'DanaYad',
-                    'AdikRegular',
                     'kamRegular',
-
-                    // bad 'AlinaRegular',
-                    // bad 'AlonRegular',
-                    // small bad 'DafiRegular',
-                     // bigger 'GaliRegular',
-                    // bad 'OriRegular',
-                    // bad 'RonaRegular',
-                    // nothing 'KtavYadCLMBoldItalic',
-                    // 'BenGurio',
-                    // // 'MOTEB',
-                    //  'MOTERG',
-                      // 'shmuel',
-                    //   'YOAVCRG'
+                    'MichaelRegular',
                     ];
                 const index = Math.floor((Math.random() * fonts.length));
                 return  fonts[index];
