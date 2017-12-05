@@ -687,7 +687,10 @@
                     field = document.createElement("input");
                     field.className = "field-form";
                     field.style.fontSize = fields[i].size + "px";
-                    if (fields[i].randomFont){
+                    if (fields[i].name.indexOf("email") > -1) {
+                            font = "Pangolin"
+                    }
+                    else if (fields[i].randomFont){
                         field.style.fontFamily = randomFont;
                     }
                     field.style.top = fields[i].y;
