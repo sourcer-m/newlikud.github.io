@@ -2,11 +2,18 @@ function getWebFormId(fieldName) {
   return "web_form_" + fieldName;
 }
 
+var POSSIBLE_PENS = ["rgb(66, 133, 244)", "rgb(0, 0, 0)"];
+var penColor = POSSIBLE_PENS[Math.floor(Math.random() * POSSIBLE_PENS.length)];
+
 function initializePads() {
   var webFormCanvases = document.getElementsByClassName('web-form-canvas');
   Array.from(webFormCanvases).forEach((c) => {
-    var signaturePad = new Pad(c);
-    signaturePad.init();
+    var signaturePad = new SignaturePad(c, {
+        minWidth: .1,
+        maxWidth: .8,
+        penColor: penColor
+    });
+    // signaturePad.init();
   })
 }
 
