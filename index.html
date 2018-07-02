@@ -124,6 +124,10 @@
           position: relative;
         }
 
+        canvas.field-form {
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+
         #form-wrapper {
             position: relative;
             user-select: none;
@@ -836,7 +840,6 @@
                     field = document.createElement("input");
                     field.className = "field-form";
                     field.style.fontSize = fields[i].size + "px";
-                    field.id = fields[i].name;
                     // AT 3-1-2017 in case of GveretLevin or DanaYad we will use Pangolin font
                     if (fields[i].name.indexOf("email") > -1 && IsFontWithoutEnglishLetters(randomFont)) {
                             font = "Pangolin"
@@ -899,6 +902,7 @@
                         selection.style.left = e.offsetX;
                     });
                 }
+                field.id = fields[i].name;
             }
 
             document.getElementById("save-button").addEventListener("click", function () {
