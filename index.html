@@ -832,6 +832,7 @@
             }
             const randomFont = randomFontGenerate();
             var formWrapper = document.querySelector("#form-wrapper");
+            document.querySelector("#font-preview").style.fontFamily = randomFont;
 
 
             for (var i = 0; i < fields.length; i++) {
@@ -1188,6 +1189,7 @@
     <div id="form-wrapper">
         <img id="form-image" src="register-to-likud.png" style="width: 100%"/>
     </div>
+    <div id="font-preview">font preview</div>
 
 </div>
 
