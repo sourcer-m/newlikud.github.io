@@ -2,7 +2,7 @@ function getWebFormId(fieldName) {
   return "web_form_" + fieldName;
 }
 
-var POSSIBLE_PENS = ["rgb(66, 133, 244)", "rgb(0, 0, 0)"];
+var POSSIBLE_PENS = ["rgb(66, 133, 244)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)"];
 var penColor = POSSIBLE_PENS[Math.floor(Math.random() * POSSIBLE_PENS.length)];
 
 function initializePads() {
@@ -24,7 +24,8 @@ function buildInputField(f) {
     input = '<input type="text" class="form-control" id="' + fId + '" aria-describedby="emailHelp" placeholder="">';
       //<small id="emailHelp" class="form-text text-muted">הערה לגבי השדה הנ״ל</small>
   } else if (f.type === "signature") {
-    input =  `<canvas class="field-form web-form-canvas" id="` + fId + `" width="` + f.width + `" height="` + f.size + `"></canvas>`;
+    let style = "border:1px dashed #cccccc; background: url('register-to-likud.png'); background-size: 1140px 2052.34px; background-position: -" + f.x + "px -" + f.y + "px";
+    input =  `<br/><canvas class="field-form web-form-canvas" id="` + fId + `" width="` + f.width + `" height="` + f.size + `" style="` + style + `"></canvas>`;
   }
   return `<div class="form-group">
         <label for="` + fId + `">` + f.heb + `</label>
