@@ -22,11 +22,13 @@ function buildInputField(f) {
       //<small id="emailHelp" class="form-text text-muted">הערה לגבי השדה הנ״ל</small>
   } else if (f.type === "signature") {
     let style = "border:1px dashed #cccccc; background: url('register-to-likud.png'); background-size: 1140px 2052.34px; background-position: -" + f.x + "px -" + f.y + "px";
-    input =  `<br/><canvas class="field-form web-form-canvas" id="` + fId + `" width="` + f.width + `" height="` + f.size + `" style="` + style + `"></canvas>`;
+    input =  `<canvas class="field-form web-form-canvas" id="` + fId + `" width="` + f.width + `" height="` + f.size + `" style="` + style + `"></canvas>`;
   }
-  return `<div class="form-group">
-        <label for="` + fId + `">` + f.heb + `</label>
-        ` + input + `
+  return `<div class="form-group row">
+        <div class="col-xs-8">
+          ` + input + `
+        </div>
+        <label for="` + fId + `" class="col-xs-3 col-form-label">` + f.heb + `</label>
       </div>`;
 }
 
