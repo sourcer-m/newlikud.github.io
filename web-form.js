@@ -6,7 +6,7 @@ function initializePads() {
   var webFormCanvases = document.getElementsByClassName('web-form-canvas');
   Array.from(webFormCanvases).forEach((c) => {
     var signaturePad = new SignaturePad(c, {
-        minWidth: .1,
+        minWidth: .01,
         maxWidth: .8,
         penColor: penColor
     });
