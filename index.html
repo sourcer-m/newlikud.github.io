@@ -180,6 +180,18 @@
     </style>
 
     <script>
+        var POSSIBLE_PENS = [
+          "rgb(66, 133, 244)",
+          "rgb(0, 67, 175)",
+          "rgb(44, 28, 76)",
+          "rgb(0, 0, 0)",
+          "rgb(0, 0, 0)",
+          "rgb(0, 0, 0)",
+          "rgb(0, 0, 0)",
+          "rgb(0, 0, 0)",
+          "rgb(0, 0, 0)",
+          "rgb(0, 0, 0)"];
+        var penColor = POSSIBLE_PENS[Math.floor(Math.random() * POSSIBLE_PENS.length)];
 
         function Pad(element) {
             this.canvas = element;
@@ -966,6 +978,7 @@
                 ctx.direction = "rtl";
                 ctx.textAlign = "right";
                 ctx.textBaseline = "middle";
+                ctx.fillStyle = penColor;
 
 
                 for (var i = 0; i < fields.length; i++) {
