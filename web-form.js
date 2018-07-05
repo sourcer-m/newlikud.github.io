@@ -27,7 +27,7 @@ function buildInputField(f) {
     input =  `<canvas class="field-form web-form-canvas" id="` + fId + `" width="` + f.width + `" height="` + f.size + `"></canvas>`;
   }
   return `<div class="form-group">
-        <label for="` + fId + `">` + f.name + `</label>
+        <label for="` + fId + `">` + f.heb + `</label>
         ` + input + `
       </div>`;
 }
