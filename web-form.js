@@ -68,6 +68,9 @@ function initializeDoubleForm() {
 function buildWebForm() {
   let html = '';
   fields.forEach((field, index) => {
+    if (field.title) {
+      html += '<h2 class="' + (field.doubleFormOnly?"double-form-only":"") + '">' + field.title + '</h2>';
+    }
     html += buildInputField(field, index);
   });
   html += `<div class="form-group row"><div class="col-xs-8">
