@@ -29,7 +29,7 @@ function buildInputField(f) {
     input =  `<canvas class="field-form web-form-canvas" id="` + fId + `" width="` + f.width + `" height="` + f.size + `" style="` + style + `"></canvas>`;
     input += '<input type="button" class="btn btn-warning btn-sm" value="X" data-target="' + fId + '"/>';
   }
-  return `<div class="form-group row">
+  return `<div class="form-group row ` + (f.doubleFormOnly?"double-form-only":"") + `">
         <div class="col-xs-8 align-middle">
           ` + input + `
         </div>
@@ -37,15 +37,26 @@ function buildInputField(f) {
       </div>`;
 }
 
+function initializeDoubleForm() {
+  document.getElementById("double-form-button").change = function () {
+    Array.from(document.querySelectorAll(".double-form-only")).forEach((c) => {
+      c.style.display = document.getElementById("double-form-button").checked?"block":"none";
+    });
+  };
+}
+
 function buildWebForm() {
   let html = '';
   fields.forEach((field) => {
     html += buildInputField(field);
   });
-  html += '<button type="button" class="btn btn-default navbar-btn btn-primary" id="save-button">שלח</button>';
+  html += `<div class="form-group row"><div class="col-xs-8">
+    <button type="button" class="btn btn-default navbar-btn btn-primary" id="save-button">שלח</button>
+  </div></div>`;
   document.getElementById("web-form").innerHTML = html;
 
   initializePads();
+  initializeDoubleForm();
 }
 
 function fillCanvasForm() {

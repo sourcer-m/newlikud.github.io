@@ -5,6 +5,10 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="font-awesome.min.css"/>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
     <script src="jspdf.min.js"></script>
@@ -172,9 +176,13 @@
         }
 
 
-        .btn-primary {
+        #save-button {
             padding:10px 50px;
             font-size:24px;
+        }
+
+        .double-form-only {
+          display: none;
         }
 
     </style>
@@ -547,7 +555,8 @@
                 "width": 280,
                 "spacing": 19,
                 "special":true,
-                "randomFont": true
+                "randomFont": true,
+                "doubleFormOnly": true
             },
             {
                 "name": "spouse_family_name",
@@ -557,7 +566,8 @@
                 "y": 755,
                 "size": 24,
                 "width": 280,
-                "randomFont": true
+                "randomFont": true,
+                "doubleFormOnly": true
             },
             {
                 "name": "spouse_first_name",
@@ -567,7 +577,8 @@
                 "y": 755,
                 "size": 24,
                 "width": 280,
-                "randomFont": true
+                "randomFont": true,
+                "doubleFormOnly": true
             },
             {
                 "name": "spouse_father_name",
@@ -577,7 +588,8 @@
                 "y": 820,
                 "size": 24,
                 "width": 162,
-                "randomFont": true
+                "randomFont": true,
+                "doubleFormOnly": true
             },
             {
                 "name": "spouse_dob_day",
@@ -587,7 +599,8 @@
                 "y": 820,
                 "size": 24,
                 "width": 28,
-                "randomFont": true
+                "randomFont": true,
+                "doubleFormOnly": true
 
             },
             {
@@ -598,7 +611,8 @@
                 "y": 820,
                 "size": 24,
                 "width": 28,
-                "randomFont": true
+                "randomFont": true,
+                "doubleFormOnly": true
 
             },
             {
@@ -609,7 +623,8 @@
                 "y": 820,
                 "size": 24,
                 "width": 28,
-                "randomFont": true
+                "randomFont": true,
+                "doubleFormOnly": true
 
             },
             {
@@ -620,7 +635,8 @@
                 "y": 820,
                 "size": 24,
                 "width": 140,
-                "randomFont": true
+                "randomFont": true,
+                "doubleFormOnly": true
             },
             {
                 "name": "spouse_immigration_year",
@@ -630,7 +646,8 @@
                 "y": 820,
                 "size": 24,
                 "width": 80,
-                "randomFont": true
+                "randomFont": true,
+                "doubleFormOnly": true
             },
 
             {
@@ -643,7 +660,8 @@
                 "width": 200,
 				// AT - this is the correct size for phone (font width : 600)
                 "spacing": 5,
-                "randomFont": true
+                "randomFont": true,
+                "doubleFormOnly": true
             },
             {
                 "name": "spouse_work_phone",
@@ -655,7 +673,8 @@
                 "width": 200,
 				// AT - this is the correct size for phone (font width : 600)
                 "spacing": 5,
-                "randomFont": true
+                "randomFont": true,
+                "doubleFormOnly": true
             },
 
             {
@@ -668,7 +687,8 @@
                 "width": 200,
 				// AT - this is the correct size for phone (font width : 600)
                 "spacing": 5,
-                "randomFont": true
+                "randomFont": true,
+                "doubleFormOnly": true
             },
 
             {
@@ -680,7 +700,8 @@
                 "size": 24,
                 "width": 237,
 				// AT 30-12-2017 add random font to mail
-                "randomFont": true
+                "randomFont": true,
+                "doubleFormOnly": true
             },
 
             {
@@ -693,7 +714,8 @@
                 "width": 300,
                 "align": "left",
 				// AT 30-12-2017 add random font to mail
-                "randomFont": true
+                "randomFont": true,
+                "doubleFormOnly": true
             },
 
             {
@@ -703,7 +725,8 @@
                 "x": 40,
                 "y": 930,
                 "size": 114,
-                "width": 200
+                "width": 200,
+                "doubleFormOnly": true
             },
             {
                 "name": "spouse_status",
@@ -714,6 +737,7 @@
                 "y": 820,
                 "size": 35,
                 "width": 69,
+                "doubleFormOnly": true
 
             },
             {
@@ -725,6 +749,7 @@
                 "y": 815,
                 "size": 40,
                 "width": 65,
+                "doubleFormOnly": true
 
             },
 
@@ -1238,6 +1263,11 @@
 
 <body>
 <div class="container" style="margin-top: 50px">
+  <div class="form-group row">
+    <div class="col-xs-8">
+      <input type="checkbox" id="double-form-button" data-toggle="toggle" data-on="טופס זוגי" data-off="טופס יחיד">
+    </div>
+  </div>
 <form id="web-form">
   
 </form>
