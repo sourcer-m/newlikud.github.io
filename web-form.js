@@ -18,16 +18,36 @@ function initializePads() {
   });
 }
 
-function buildInputField(f) {
+function buildInputField(f, index) {
   let fId = getWebFormId(f.name);
   let input = null;
   if (f.type === "input") {
-    input = '<input type="text" class="form-control" id="' + fId + '" aria-describedby="emailHelp" placeholder="">';
+    let tabindex = index;
+    if (f.part === 'emailProvider') {
+      tabindex += 1;
+    } else if (f.part === 'emailUsername') {
+      tabindex -= 1;
+    }
+    input = '<input type="text" class="form-control" id="' + fId + '" placeholder="" tabindex="' + tabindex + '">';
       //<small id="emailHelp" class="form-text text-muted">הערה לגבי השדה הנ״ל</small>
   } else if (f.type === "signature") {
     let style = "border:1px dashed #cccccc; background: url('register-to-likud.png'); background-size: 1140px 2052.34px; background-position: -" + f.x + "px -" + f.y + "px";
     input =  `<canvas class="field-form web-form-canvas" id="` + fId + `" width="` + f.width + `" height="` + f.size + `" style="` + style + `"></canvas>`;
     input += '<input type="button" class="btn btn-warning btn-sm" value="X" data-target="' + fId + '"/>';
+  }
+  if (f.part === 'emailProvider') {
+    return `<div class="form-group row ` + (f.doubleFormOnly?"double-form-only":"") + `">
+        <div class="col-xs-8">
+          <div class="input-group">
+            ` + input + `
+            <span class="input-group-addon" id="basic-addon1">@</span>`;
+  }
+  if (f.part === 'emailUsername') {
+    return input + `
+          </div>
+        </div>
+        <label for="` + fId + `" class="col-xs-3 col-form-label">` + f.heb + `</label>
+      </div>`;
   }
   return `<div class="form-group row ` + (f.doubleFormOnly?"double-form-only":"") + `">
         <div class="col-xs-8 align-middle">
@@ -47,8 +67,8 @@ function initializeDoubleForm() {
 
 function buildWebForm() {
   let html = '';
-  fields.forEach((field) => {
-    html += buildInputField(field);
+  fields.forEach((field, index) => {
+    html += buildInputField(field, index);
   });
   html += `<div class="form-group row"><div class="col-xs-8">
     <button type="button" class="btn btn-default navbar-btn btn-primary" id="save-button">שלח</button>
