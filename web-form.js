@@ -50,19 +50,21 @@ function buildInputField(f, index) {
       </div>`;
   }
   return `<div class="form-group row ` + (f.doubleFormOnly?"double-form-only":"") + `">
+        <label for="` + fId + `" class="col-xs-3 col-form-label">` + f.heb + `</label>
         <div class="col-xs-8 align-middle">
           ` + input + `
         </div>
-        <label for="` + fId + `" class="col-xs-3 col-form-label">` + f.heb + `</label>
       </div>`;
 }
 
 function initializeDoubleForm() {
-  document.getElementById("double-form-button").change = function () {
-    Array.from(document.querySelectorAll(".double-form-only")).forEach((c) => {
-      c.style.display = document.getElementById("double-form-button").checked?"block":"none";
-    });
-  };
+  Array.from(document.getElementsByName('double-form-radio')).forEach((radio) => {
+    radio.onclick = function () {
+      Array.from(document.querySelectorAll(".double-form-only")).forEach((c) => {
+        c.style.display = (document.getElementsByName('double-form-radio')[1].checked)?"block":"none";
+      });
+    }
+  });
 }
 
 function buildWebForm() {
