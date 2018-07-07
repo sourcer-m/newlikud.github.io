@@ -70,6 +70,9 @@ function initializeDoubleForm() {
 function buildWebForm() {
   let html = '';
   fields.forEach((field, index) => {
+    if (field.hasOwnProperty('autoField')) {
+      return;
+    }
     if (field.title) {
       html += '<h2 class="' + (field.doubleFormOnly?"double-form-only":"") + '">' + field.title + '</h2>';
     }

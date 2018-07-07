@@ -201,96 +201,17 @@
           "rgb(0, 0, 0)"];
         var penColor = POSSIBLE_PENS[Math.floor(Math.random() * POSSIBLE_PENS.length)];
 
-        function Pad(element) {
-            this.canvas = element;
-            this.flag = false;
-            this.dot_flag = false;
-            this.prevX = 0;
-            this.currX = 0;
-            this.prevY = 0;
-            this.currY = 0;
+        function getToday() {
+          return true;
         }
-
-        Pad.prototype.init = function () {
-            this.eraseButton = document.createElement("button");
-            this.eraseButton.textContent = "Erase";
-            this.canvas.parentElement.appendChild(this.eraseButton);
-
-            this.eraseButton.addEventListener("click", (function (e) {
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            }).bind(this));
-
-            this.ctx = this.canvas.getContext("2d");
-
-            this.canvas.addEventListener("mousemove", (function (e) {
-                this.findxy('move', e)
-            }).bind(this), false);
-            this.canvas.addEventListener("mousedown", (function (e) {
-                this.findxy('down', e)
-            }).bind(this), false);
-            this.canvas.addEventListener("mouseup", (function (e) {
-                this.findxy('up', e)
-            }).bind(this), false);
-            this.canvas.addEventListener("mouseout", (function (e) {
-                this.findxy('out', e)
-            }).bind(this), false);
-        };
-
-        Pad.prototype.draw = function () {
-            this.ctx.strokeStyle = "black";
-            //this.ctx.lineWidth = 2 + 5 / Math.sqrt((this.currY - this.prevY) * (this.currY - this.prevY) + (this.currX - this.prevX) * (this.currX - this.prevX));
-            this.ctx.lineWidth = 2;
-
-            this.ctx.beginPath();
-            this.ctx.moveTo(this.prevX, this.prevY);
-            this.ctx.lineTo(this.currX, this.currY);
-            this.ctx.stroke();
-            this.ctx.closePath();
-        };
-
-        Pad.prototype.erase = function () {
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        };
-
-        Pad.prototype.findxy = function (res, e) {
-            if (res == 'down') {
-                this.prevX = this.currX;
-                this.prevY = this.currY;
-                this.currX = e.offsetX;
-                this.currY = e.offsetY;
-
-                this.flag = true;
-                this.dot_flag = true;
-                if (this.dot_flag) {
-                    this.ctx.beginPath();
-                    this.ctx.fillStyle = this.fillStyle;
-                    //this.ctx.fillRect(this.currX, this.currY, 2, 2);
-                    this.ctx.closePath();
-                    this.dot_flag = false;
-                }
-            }
-            if (res == 'up' || res == "out") {
-                this.flag = false;
-            }
-            if (res == 'move') {
-
-                if (this.flag) {
-                    this.prevX = this.currX;
-                    this.prevY = this.currY;
-                    this.currX = e.offsetX;
-                    this.currY = e.offsetY;
-                    this.draw();
-                }
-            }
-
-        };
 
 
         var fields = [
             {
                "name": "date",
-               "heb": "תאריך",
+                "heb": "תאריך",
                 "type": "input",
+                "autoField": getToday(),
                 "x": 30,
                 "y": 120,
                 "size": 24,
@@ -1272,7 +1193,7 @@
 <div class="container" style="margin-top: 50px">
   <div class="form-group row">
     <div class="col-xs-3">
-      
+
     </div>
     <div class="col-xs-8">
       <div>
