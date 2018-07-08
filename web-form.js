@@ -37,8 +37,8 @@ function buildInputField(f, index) {
   }
   if (f.part === 'emailProvider') {
     return `<div class="form-group row ` + (f.doubleFormOnly?"double-form-only":"") + `">
-    <label for="` + fId + `" class="col-xs-11 col-form-label">` + f.heb + `</label>
-        <div class="col-xs-11">
+    <label for="` + fId + `" class="col-xs-11 col-sm-3 col-form-label">` + f.heb + `</label>
+        <div class="col-xs-11 col-sm-8">
           <div class="input-group">
             ` + input + `
             <span class="input-group-addon" id="basic-addon1">@</span>`;
