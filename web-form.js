@@ -8,9 +8,13 @@ function initializePads() {
     var signaturePad = new SignaturePad(c, {
         minWidth: .01,
         maxWidth: .8,
-        penColor: penColor
+        penColor: penColor,
+        onEnd: function() {
+          markAsValid(c, (!c.pad.isEmpty()));
+        }
     });
     let clearBtn = document.querySelector("input[data-target='" + c.id + "']");
+    c.pad = signaturePad;
     clearBtn.pad = signaturePad;
     clearBtn.onclick = () => {
       clearBtn.pad.clear();
@@ -69,6 +73,30 @@ function initializeDoubleForm() {
   });
 }
 
+function isEmpty(field, element) {
+  if (field.type === 'input') {
+    return (!element.value);
+  } else if (field.type === 'signature') {
+    return (element.pad.isEmpty());
+  }
+}
+
+function initializeValidation() {
+  fields.forEach((f) => {
+    if (f.autoField)
+      return;
+    
+    let wfID = getWebFormId(f.name);
+    let element = document.getElementById(wfID);
+
+    element.oninput = function() {
+      markAsValid(element, !isEmpty(f, element));
+    };
+    element.onpropertychange = element.oninput;
+    element.onblur = element.oninput;
+  });
+}
+
 function buildWebForm() {
   let html = '';
   fields.forEach((field, index) => {
@@ -87,6 +115,7 @@ function buildWebForm() {
 
   initializePads();
   initializeDoubleForm();
+  initializeValidation();
 }
 
 function fillCanvasForm() {
@@ -103,20 +132,33 @@ function fillCanvasForm() {
   });
 }
 
+function markAsValid(element, valid) {
+  let rootElement = element.parentElement.parentElement
+  if (valid) {
+    rootElement.classList.remove("has-error");
+  } else {
+    rootElement.classList.add("has-error");
+  }
+  Array.from(rootElement.getElementsByClassName("help-block")).forEach((e) => {
+    e.style.display = valid?'none':'block';
+  });
+}
+
 function validateForm() {
   let isValid = true;
 
   fields.forEach((f) => {
     if (f.autoField)
       return;
+
+    if (f.doubleFormOnly && document.getElementsByName('double-form-radio')[0].checked) {
+      return;
+    }
     
     let wfID = getWebFormId(f.name);
     let element = document.getElementById(wfID);
-    if (!element.value) {
-      element.parentElement.parentElement.classList.add("has-error");
-      Array.from(element.parentElement.parentElement.getElementsByClassName("help-block")).forEach((e) => {
-        e.style.display = 'block';
-      });
+    if (isEmpty(f, element)) {
+      markAsValid(element, false);
       isValid = false;
     }
   });
