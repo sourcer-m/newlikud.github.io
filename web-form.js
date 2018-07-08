@@ -144,8 +144,14 @@ function markAsValid(element, valid) {
   });
 }
 
+function cursorFocus(elem) {
+  var x = window.scrollX, y = window.scrollY;
+  window.scrollTo(x, y);
+  elem.focus();
+}
+
 function validateForm() {
-  let isValid = true;
+  let invalidElement = null;
 
   fields.forEach((f) => {
     if (f.autoField)
@@ -158,10 +164,16 @@ function validateForm() {
     let wfID = getWebFormId(f.name);
     let element = document.getElementById(wfID);
     if (isEmpty(f, element)) {
+      if (!invalidElement) {
+        invalidElement = element;
+      }
       markAsValid(element, false);
-      isValid = false;
     }
   });
 
-  return isValid;
+  if (invalidElement) {
+    cursorFocus(invalidElement);
+  }
+
+  return (!invalidElement);
 }
