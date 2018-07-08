@@ -46,6 +46,7 @@ function buildInputField(f, index) {
   if (f.part === 'emailUsername') {
     return input + `
           </div>
+          <span class="help-block">נא להזין ` + f.heb + `</span>
         </div>
       </div>`;
   }
@@ -53,6 +54,7 @@ function buildInputField(f, index) {
         <label for="` + fId + `" class="col-xs-3 col-form-label">` + f.heb + `</label>
         <div class="col-xs-8 align-middle">
           ` + input + `
+          <span class="help-block">נא להזין ` + f.heb + `</span>
         </div>
       </div>`;
 }
@@ -99,4 +101,25 @@ function fillCanvasForm() {
       document.getElementById(f.name).getContext('2d').drawImage(document.getElementById(wfID), 0, 0);
     }
   });
+}
+
+function validateForm() {
+  let isValid = true;
+
+  fields.forEach((f) => {
+    if (f.autoField)
+      return;
+    
+    let wfID = getWebFormId(f.name);
+    let element = document.getElementById(wfID);
+    if (!element.value) {
+      element.parentElement.parentElement.classList.add("has-error");
+      Array.from(element.parentElement.parentElement.getElementsByClassName("help-block")).forEach((e) => {
+        e.style.display = 'block';
+      });
+      isValid = false;
+    }
+  });
+
+  return isValid;
 }
