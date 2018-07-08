@@ -91,7 +91,9 @@ function fillCanvasForm() {
   fields.forEach((f) => {
     let wfID = getWebFormId(f.name);
     console.log(wfID, f.name)
-    if (f.type === "input") {
+    if (f.autoField) {
+      document.getElementById(f.name).value = f.autoField;
+    } else if (f.type === "input") {
       document.getElementById(f.name).value = document.getElementById(wfID).value;
     } else if (f.type === "signature") {
       document.getElementById(f.name).getContext('2d').drawImage(document.getElementById(wfID), 0, 0);
