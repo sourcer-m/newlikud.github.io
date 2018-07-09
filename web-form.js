@@ -41,7 +41,7 @@ function buildInputField(f, index) {
   }
   if (f.part === 'emailProvider') {
     return `<div class="form-group row ` + (f.doubleFormOnly?"double-form-only":"") + `">
-    <label for="` + fId + `" class="col-xs-11 col-sm-3 col-form-label">` + f.heb + `</label>
+    <label for="` + fId + `" class="col-xs-11 col-sm-3 col-form-label">` + f.heb + (f.allowEmpty?"":" <font color=red>*</font>") + `</label>
         <div class="col-xs-11 col-sm-8">
           <div class="input-group">
             ` + input + `
@@ -55,7 +55,7 @@ function buildInputField(f, index) {
       </div>`;
   }
   return `<div class="form-group row ` + (f.doubleFormOnly?"double-form-only":"") + `">
-        <label for="` + fId + `" class="col-xs-3 col-form-label">` + f.heb + `</label>
+        <label for="` + fId + `" class="col-xs-3 col-form-label">` + f.heb + (f.allowEmpty?"":" <font color=red>*</font>") + `</label>
         <div class="col-xs-8 align-middle">
           ` + input + `
           <span class="help-block">נא להזין ` + f.heb + `</span>
@@ -81,24 +81,8 @@ function isEmpty(field, element) {
   }
 }
 
-function initializeValidation() {
-  fields.forEach((f) => {
-    if (f.autoField)
-      return;
-    
-    let wfID = getWebFormId(f.name);
-    let element = document.getElementById(wfID);
-
-    element.oninput = function() {
-      markAsValid(element, !isEmpty(f, element));
-    };
-    element.onpropertychange = element.oninput;
-    element.onblur = element.oninput;
-  });
-}
-
 function buildWebForm() {
-  let html = '';
+  let html = '<font color=red>*</font>שדות חובה';
   fields.forEach((field, index) => {
     if (field.hasOwnProperty('autoField')) {
       return;
@@ -132,48 +116,10 @@ function fillCanvasForm() {
   });
 }
 
-function markAsValid(element, valid) {
-  let rootElement = element.parentElement.parentElement
-  if (valid) {
-    rootElement.classList.remove("has-error");
-  } else {
-    rootElement.classList.add("has-error");
-  }
-  Array.from(rootElement.getElementsByClassName("help-block")).forEach((e) => {
-    e.style.display = valid?'none':'block';
-  });
-}
-
 function cursorFocus(elem) {
   var x = window.scrollX, y = window.scrollY;
   window.scrollTo(x, y);
   elem.focus();
 }
 
-function validateForm() {
-  let invalidElement = null;
 
-  fields.forEach((f) => {
-    if (f.autoField)
-      return;
-
-    if (f.doubleFormOnly && document.getElementsByName('double-form-radio')[0].checked) {
-      return;
-    }
-    
-    let wfID = getWebFormId(f.name);
-    let element = document.getElementById(wfID);
-    if (isEmpty(f, element)) {
-      if (!invalidElement) {
-        invalidElement = element;
-      }
-      markAsValid(element, false);
-    }
-  });
-
-  if (invalidElement) {
-    cursorFocus(invalidElement);
-  }
-
-  return (!invalidElement);
-}
