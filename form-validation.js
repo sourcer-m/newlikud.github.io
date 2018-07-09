@@ -40,7 +40,7 @@ function validateForm() {
 
 function initializeValidation() {
   fields.forEach((f) => {
-    if (f.autoField || f.allowEmpty)
+    if (f.autoField || f.allowEmpty || f.partOfDate)
       return;
     
     let wfID = getWebFormId(f.name);

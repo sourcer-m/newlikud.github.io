@@ -8,6 +8,7 @@
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker3.min.css" rel="stylesheet">
 
+    <script src="datepickers.js"></script>
     <script src="web-form.js"></script>
     <script src="form-validation.js"></script>
     <script src="dataUtils.js"></script>
@@ -195,6 +196,10 @@
           display: none;
         }
 
+        .datepicker {
+          direction: rtl;
+        }
+
     </style>
 
     <script>
@@ -280,6 +285,7 @@
             },
             {
                 "name": "dob_day",
+                "partOfDate": "dob",
                 "heb": "תאריך לידה (יום בחודש)",
                 "type": "input",
                 "x": 700,
@@ -292,6 +298,7 @@
             },
             {
                 "name": "dob_month",
+                "partOfDate": "dob",
                 "heb": "תאריך לידה (חודש בשנה)",
                 "type": "input",
                 "x": 730,
@@ -303,7 +310,8 @@
             },
             {
                 "name": "dob_year",
-                "heb": "תאריך לידה (שנה)",
+                "partOfDate": "dob",
+                "heb": "תאריך לידה",
                 "type": "input",
                 "x": 760,
                 "y": 420,
@@ -526,6 +534,7 @@
             },
             {
                 "name": "spouse_dob_day",
+                "partOfDate": "spouse_dob",
                 "heb": "תאריך לידה (יום בחודש) בן/בת זוג",
                 "type": "input",
                 "x": 700,
@@ -538,6 +547,7 @@
             },
             {
                 "name": "spouse_dob_month",
+                "partOfDate": "spouse_dob",
                 "heb": "תאריך לידה (חודש בשנה) בן/בת זוג",
                 "type": "input",
                 "x": 730,
@@ -550,7 +560,8 @@
             },
             {
                 "name": "spouse_dob_year",
-                "heb": "תאריך לידה (שנה) בן/בת זוג",
+                "partOfDate": "spouse_dob",
+                "heb": "תאריך לידה בן/בת זוג",
                 "type": "input",
                 "x": 760,
                 "y": 820,
@@ -719,6 +730,7 @@
 
                         {
                 "name": "person_dob_day",
+                "partOfDate": "person_dob",
                 "heb": "יום בחודש",
                 "type": "input",
                 "x": 180,
@@ -730,6 +742,7 @@
             },
             {
                 "name": "person_dob_month",
+                "partOfDate": "person_dob",
                 "heb": "מספר החודש",
                 "type": "input",
                 "x": 216,
@@ -741,7 +754,8 @@
             },
             {
                 "name": "person_dob_year",
-                "heb": "שנה",
+                "partOfDate": "person_dob",
+                "heb": "תוקף כרטיס אשראי",
                 "type": "input",
                 "x": 252,
                 "y": 1190,
@@ -1202,7 +1216,7 @@
 <div class="container" style="margin-top: 50px">
   <div class="form-group row">
     <div class="col-xs-3">
-      <div id="datepicker" data-date="01/01/1980"></div>
+      
     </div>
     <div class="col-xs-8">
       <div>

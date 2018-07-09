@@ -22,8 +22,7 @@ function initializePads() {
   });
 }
 
-function buildInputField(f, index) {
-  let fId = getWebFormId(f.name);
+function buildInput(f, fId, index) {
   let input = null;
   if (f.type === "input") {
     let tabindex = index;
@@ -39,6 +38,25 @@ function buildInputField(f, index) {
     input =  `<canvas class="field-form web-form-canvas" id="` + fId + `" width="` + f.width + `" height="` + f.size + `" style="` + style + `"></canvas>`;
     input += '<input type="button" class="btn btn-warning btn-sm" value="X" data-target="' + fId + '"/>';
   }
+  return input;
+}
+
+function buildFormRow(f, index) {
+  let fId = getWebFormId(f.name);
+  let input = null;
+
+  if (f.partOfDate) {
+    let parts = f.name.split("_");
+    let datePart = parts[parts.length - 1];
+    if (datePart === "year") {
+      input = '<div class="datepicker" id="web-form-' + f.partOfDate + '" data-date="01/01/1980"></div>';
+    } else {
+      return '';
+    }
+  } else {
+    input = buildInput(f, fId, index);
+  }
+
   if (f.part === 'emailProvider') {
     return `<div class="form-group row ` + (f.doubleFormOnly?"double-form-only":"") + `">
     <label for="` + fId + `" class="col-xs-11 col-sm-3 col-form-label">` + f.heb + (f.allowEmpty?"":" <font color=red>*</font>") + `</label>
@@ -90,7 +108,7 @@ function buildWebForm() {
     if (field.title) {
       html += '<h2 class="' + (field.doubleFormOnly?"double-form-only":"") + '">' + field.title + '</h2>';
     }
-    html += buildInputField(field, index);
+    html += buildFormRow(field, index);
   });
   html += `<div class="form-group row"><div class="col-xs-8">
     <button type="button" class="btn btn-default navbar-btn btn-primary" id="save-button">שלח</button>
@@ -101,7 +119,7 @@ function buildWebForm() {
   initializeDoubleForm();
   initializeValidation();
 
-  $('#datepicker').datepicker({
+  $('.datepicker').datepicker({
     autoclose: true,
     startView: 3
   });
@@ -114,6 +132,17 @@ function fillCanvasForm() {
     console.log(wfID, f.name)
     if (f.autoField) {
       document.getElementById(f.name).value = f.autoField;
+    } else if (f.partOfDate) {
+      let parts = f.name.split("_");
+      let datePart = parts[parts.length - 1];
+      let date = $('#web-form-' + f.partOfDate).datepicker('getDate');
+      if (datePart === 'day') {
+        document.getElementById(f.name).value = date.getDate();
+      } else if (datePart === 'month') {
+        document.getElementById(f.name).value = date.getMonth() + 1;
+      } else if (datePart === 'year') {
+        document.getElementById(f.name).value = date.getFullYear().toString().substr(-2);
+      }
     } else if (f.type === "input") {
       document.getElementById(f.name).value = document.getElementById(wfID).value;
     } else if (f.type === "signature") {
