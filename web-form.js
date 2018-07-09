@@ -100,6 +100,12 @@ function buildWebForm() {
   initializePads();
   initializeDoubleForm();
   initializeValidation();
+
+  $('#datepicker').datepicker({
+    autoclose: true,
+    startView: 3
+  });
+
 }
 
 function fillCanvasForm() {
