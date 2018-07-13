@@ -18,3 +18,5 @@ function getToday() {
   }
   return dateStr;
 }
+
+var TODAY_STR = getToday();

@@ -122,7 +122,8 @@ function buildWebForm() {
 
   $('.datepicker').datepicker({
     autoclose: true,
-    startView: 3
+    startView: 3,
+    endDate: new Date(new Date().setFullYear(new Date().getFullYear() - 10)),
   });
 
 }
