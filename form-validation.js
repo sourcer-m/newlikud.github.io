@@ -1,4 +1,7 @@
 function markAsValid(element, valid) {
+  if (!element) {
+    return;
+  }
   let rootElement = element.parentElement.parentElement
   if (valid) {
     rootElement.classList.remove("has-error");

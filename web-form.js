@@ -92,11 +92,12 @@ function initializeDoubleForm() {
 }
 
 function isEmpty(field, element) {
-  if (field.type === 'input') {
+  if (field.type === 'input' && !field.partOfDate) {
     return (!element.value);
   } else if (field.type === 'signature') {
     return (element.pad.isEmpty());
   }
+  return true;
 }
 
 function buildWebForm() {
