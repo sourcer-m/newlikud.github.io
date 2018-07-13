@@ -1051,8 +1051,8 @@
                 const postMessageValues = extractPostMessageValues(fields);
                 try {
                     var pdfToServer = pdf.output('blob');
-                    //console.log('post to parent',postMessageValues) ;
-                    //postToParent(pdfToServer, postMessageValues);
+                    console.log('post to parent',postMessageValues) ;
+                    postToParent(pdfToServer, postMessageValues);
                 }
                 catch (e) {
                     console.log(e);            
