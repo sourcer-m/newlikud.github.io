@@ -41,6 +41,14 @@ function buildInput(f, fId, index) {
   return input;
 }
 
+function getOptionList(start, end, selectedIndex) {
+  let html = '';
+  for (let i=start; i <= end; i++) {
+    html += '<option value="' + i + '">' + i + '</option>';
+  }
+  return html;
+}
+
 function buildFormRow(f, index) {
   let fId = getWebFormId(f.name);
   let input = null;
@@ -72,6 +80,25 @@ function buildFormRow(f, index) {
         </div>
       </div>`;
   }
+
+  if (f.name == 'credit_date') {
+    return `<div class="form-group row ` + (f.doubleFormOnly?"double-form-only":"") + `">
+        <label for="` + fId + `" class="col-xs-3 col-form-label">` + f.heb + (f.allowEmpty?"":" <font color=red>*</font>") + `</label>
+        <div class="col-xs-4 align-middle">
+          <select class="form-control" id="credit_date_year">
+            ` + getOptionList(YEAR_INT, YEAR_INT + 10) + `
+          </select>
+          <span class="help-block">נא להזין ` + f.heb + `</span>
+        </div>
+        <div class="col-xs-4 align-middle">
+          <select class="form-control" id="credit_date_month">
+            ` + getOptionList(1, 12) + `
+          </select>
+          <span class="help-block">נא להזין ` + f.heb + `</span>
+        </div>
+      </div>`;
+  }
+
   return `<div class="form-group row ` + (f.doubleFormOnly?"double-form-only":"") + `">
         <label for="` + fId + `" class="col-xs-3 col-form-label">` + f.heb + (f.allowEmpty?"":" <font color=red>*</font>") + `</label>
         <div class="col-xs-8 align-middle">
@@ -165,6 +192,10 @@ function fillCanvasForm() {
       } else if (datePart === 'year') {
         document.getElementById(f.name).value = date.getFullYear().toString().substr(-2);
       }
+    } else if (f.name == 'credit_date') {
+      document.getElementById(f.name).value =
+        document.getElementById('credit_date_month').value +
+        document.getElementById('credit_date_year').value.substring(2, 4);
     } else if (f.type === "input") {
       document.getElementById(f.name).value = document.getElementById(wfID).value;
     } else if (f.type === "signature") {
