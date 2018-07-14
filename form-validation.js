@@ -26,7 +26,7 @@ function validateForm() {
     
     let wfID = getWebFormId(f.name);
     let element = document.getElementById(wfID);
-    if (isEmpty(f, element)) {
+    if (element && isEmpty(f, element)) {
       if (!invalidElement) {
         invalidElement = element;
       }
@@ -36,6 +36,7 @@ function validateForm() {
 
   if (invalidElement) {
     cursorFocus(invalidElement);
+    invalidElement.scrollIntoView();
   }
 
   return (!invalidElement);
@@ -48,11 +49,12 @@ function initializeValidation() {
     
     let wfID = getWebFormId(f.name);
     let element = document.getElementById(wfID);
-
-    element.oninput = function() {
-      markAsValid(element, !isEmpty(f, element));
-    };
-    element.onpropertychange = element.oninput;
-    element.onblur = element.oninput;
+    if (element) {
+      element.oninput = function() {
+        markAsValid(element, !isEmpty(f, element));
+      };
+      element.onpropertychange = element.oninput;
+      element.onblur = element.oninput;
+    }
   });
 }
