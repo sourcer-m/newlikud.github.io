@@ -132,8 +132,10 @@ function initDisclamer() {
   checkbox.addEventListener('change', (event) => {
     if (event.target.checked) {
       $('#save-button').removeClass('disabled');
+      $('#save-button').prop('disabled', false);
     } else {
       $('#save-button').addClass('disabled');
+      $('#save-button').prop('disabled', true);
     }
   });
 }
@@ -158,7 +160,7 @@ function buildWebForm() {
         </p></label> 
 </div></div>`
   html += `<div class="form-group row"><div class="col-xs-8">
-    <button type="button" class="btn btn-default navbar-btn btn-primary disabled" id="save-button">שלח</button>
+    <button type="button" class="btn btn-default navbar-btn btn-primary disabled" id="save-button" disabled>שלח</button>
   </div></div>`;
   document.getElementById("web-form").innerHTML = html;
 
